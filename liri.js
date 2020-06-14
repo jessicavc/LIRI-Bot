@@ -4,12 +4,13 @@ require("dotenv").config();
 //code required to import keys file and store it in a variable
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
+// var BandsInTown = require("bandsintown");
+// var OMDB = require("OMDB");
 var axios = require("axios");
 var fs = require("fs");
 var moment = require("moment");
-const {
-    response
-} = require("express");
+
+
 
 //Variables for the arguments in LIRI
 var appCommand = process.argv[2];
@@ -78,17 +79,22 @@ function getSpotify(songName) {
 //BIT API function
 function getBandsInTown(artist) {
     var artist = userSearch;
-    var bandQueryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events/?app_id=codingbootcamp"
-
-    axios.get(bandQueryUrl)
-        .then(function (repsonse) {
+    
+    axios.get("https://rest.bandsintown.com/artists/" + artist + "/events/?app_id=codingbootcamp")
+        .then(function (response) {
             //line break to make reading results easier
             console.log("\n====================\n");
             // console.log(response);
             console.log("Name of the venue: " + response.data[0].venue.name + "\r\n");
             console.log("Venue location: " + response.data[0].venue.location + "\r\n");
-            console.log("Date of the event: " + moment(repsonse.data[0].datetime).format("MM-DD-YYYY") + "\r\n");
+            console.log("Date of the event: " + moment(response.data[0].datetime).format("MM-DD-YYYY") + "\r\n");
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .finally(function () {
+
+        });
 };
 
 //OMDB API function
@@ -101,19 +107,25 @@ function getOMDB(movie) {
     // console.log(movieQueryUrl);
 
     axios.request(movieQueryUrl)
-        .then(function (repsonse) {
+        .then(function (data) {
             // console.log(response.data);
             //line break to make reading results easier
             console.log("\n====================\n");
-            console.log("* Title: " + response.data.Title + "\r\n");
-            console.log("* Year Released: " + response.data.Year + "\r\n");
-            console.log("* IMDB Rating: " + response.data.imdbRating + "\r\n");
-            console.log("* Rotten Tomatoes Rating: " + response.data.Ratings[1].Value + "\r\n");
-            console.log("* Country Produced: " + response.data.Country + "\r\n");
-            console.log("* Lanuage: " + response.data.Language + "\r\n");
-            console.log("* Plot: " + response.data.Plot + "\r\n");
-            console.log("* Actors: " + response.data.Actors + "\r\n");
+            console.log("* Title: " + data.Title + "\r\n");
+            console.log("* Year Released: " + data.Year + "\r\n");
+            console.log("* IMDB Rating: " + data.Ratings + "\r\n");
+            console.log("* Rotten Tomatoes Rating: " + data.Ratings[1].Value + "\r\n");
+            console.log("* Country Produced: " + data.Country + "\r\n");
+            console.log("* Lanuage: " + data.Language + "\r\n");
+            console.log("* Plot: " + data.Plot + "\r\n");
+            console.log("* Actors: " + data.Actors + "\r\n");
         })
+        .catch(function (error) {
+            console.log(error);
+        })
+        .finally(function () {
+
+        });
 };
 
 //Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands
