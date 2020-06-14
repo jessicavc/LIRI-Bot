@@ -78,16 +78,16 @@ function getSpotify(songName) {
 //BIT API function
 function getBandsInTown(artist) {
     var artist = userSearch;
-    var bandQueryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+    var bandQueryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events/?app_id=codingbootcamp"
 
     axios.get(bandQueryUrl)
         .then(function (repsonse) {
             //line break to make reading results easier
             console.log("\n====================\n");
-            console.log(response);
-            console.log("Name of the venue: " + response.data.venue.name + "\r\n");
-            console.log("Venue location: " + response.data.venue.location + "\r\n");
-            console.log("Date of the event: " + moment(repsonse.data.datetime).format("MM-DD-YYYY") + "\r\n");
+            // console.log(response);
+            console.log("Name of the venue: " + response.data[0].venue.name + "\r\n");
+            console.log("Venue location: " + response.data[0].venue.location + "\r\n");
+            console.log("Date of the event: " + moment(repsonse.data[0].datetime).format("MM-DD-YYYY") + "\r\n");
         })
 };
 
@@ -114,7 +114,21 @@ function getOMDB(movie) {
             console.log("* Plot: " + response.data.Plot + "\r\n");
             console.log("* Actors: " + response.data.Actors + "\r\n");
         })
-}
+};
 
+//Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands
+//Do What It Says Function
+function getRandom() {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error);
+        } else {
+            console.log(data);
+
+            var randomData = data.split(",");
+            liriStart(randomData[0], randomData[1]);
+        }
+    })
+}
 
 liriStart(appCommand, userSearch);
