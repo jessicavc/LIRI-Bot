@@ -14,10 +14,8 @@ var moment = require("moment");
 
 //Variables for the arguments in LIRI
 var appCommand = process.argv[2];
-// console.log("Command: " + appCommand); 
 // use slice function to account for user search with spaces
 var userSearch = process.argv.slice(3).join(" ");
-// console.log("Search: " + userSearch)
 
 //switch statements to activate user input
 function liriStart(appCommand, userSearch) {
