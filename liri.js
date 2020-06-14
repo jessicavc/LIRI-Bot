@@ -35,7 +35,7 @@ function liriStart(appCommand, userSearch) {
             break;
 
     }
-}; 
+};
 
 // Spotify API function
 function getSpotify(songName) {
@@ -47,9 +47,15 @@ function getSpotify(songName) {
     };
     // console.log("No song provided defaults to: " + songName);
 
-    spotify.search({type: "track", query: songName }, function(err, data) {
+    //line break to make reading results easier
+    console.log("\n====================\n")
+
+    spotify.search({
+        type: "track",
+        query: songName
+    }, function (err, data) {
         if (err) {
-            return console.log("Error occured: " + err);
+            return console.log(err);
         }
 
         // console.log("searched song data: " + data.tracks.items[0]);
@@ -62,8 +68,8 @@ function getSpotify(songName) {
         //album that song is from
         console.log("Album: " + data.tracks.items[0].album.name + "\r\n");
 
-    }); 
-    
+    });
+
 };
 
 
