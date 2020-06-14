@@ -7,6 +7,9 @@ var Spotify = require("node-spotify-api");
 var axios = require("axios");
 var fs = require("fs");
 var moment = require("moment");
+const {
+    response
+} = require("express");
 
 //Variables for the arguments in LIRI
 var appCommand = process.argv[2];
@@ -71,6 +74,47 @@ function getSpotify(songName) {
     });
 
 };
+
+//BIT API function
+function getBandsInTown(artist) {
+    var artist = userSearch;
+    var bandQueryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+
+    axios.get(bandQueryUrl)
+        .then(function (repsonse) {
+            //line break to make reading results easier
+            console.log("\n====================\n");
+            console.log(response);
+            console.log("Name of the venue: " + response.data.venue.name + "\r\n");
+            console.log("Venue location: " + response.data.venue.location + "\r\n");
+            console.log("Date of the event: " + moment(repsonse.data.datetime).format("MM-DD-YYYY") + "\r\n");
+        })
+};
+
+//OMDB API function
+function getOMDB(movie) {
+    // console.log("Movie: " + movie);
+    if (!movie) {
+        movie = "Mr. Nobody";
+    }
+    var movieQueryUrl = "http://www.omdbapi.com/?i=" + movie + "&y=&plot=short&tt3896198&apikey=4451031a"
+    // console.log(movieQueryUrl);
+
+    axios.request(movieQueryUrl)
+        .then(function (repsonse) {
+            // console.log(response.data);
+            //line break to make reading results easier
+            console.log("\n====================\n");
+            console.log("* Title: " + response.data.Title + "\r\n");
+            console.log("* Year Released: " + response.data.Year + "\r\n");
+            console.log("* IMDB Rating: " + response.data.imdbRating + "\r\n");
+            console.log("* Rotten Tomatoes Rating: " + response.data.Ratings[1].Value + "\r\n");
+            console.log("* Country Produced: " + response.data.Country + "\r\n");
+            console.log("* Lanuage: " + response.data.Language + "\r\n");
+            console.log("* Plot: " + response.data.Plot + "\r\n");
+            console.log("* Actors: " + response.data.Actors + "\r\n");
+        })
+}
 
 
 liriStart(appCommand, userSearch);
