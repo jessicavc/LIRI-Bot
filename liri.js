@@ -5,7 +5,7 @@ require("dotenv").config();
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
 // var BandsInTown = require("bandsintown");
-// var OMDB = require("OMDB");
+var omdb = require("OMDB");
 var axios = require("axios");
 var fs = require("fs");
 var moment = require("moment");
@@ -92,39 +92,39 @@ function getBandsInTown(artist) {
         })
         .finally(function () {
 
-        }
-    );
+        });
 };
 
 //OMDB API function
 function getOMDB(movie) {
     var movie = userSearch;
- 
-    if (!movie) {
-        movie = "Mr. Nobody";
-    }
 
-    axios.get("http://www.omdbapi.com/?i=" + movie + "&y=&plot=short&r=json&tomatoes=true&apikey=trilogy")
+    if (!movie) {
+        movie = "Mr Nobody";
+    };
+
+    axios.get("http://www.omdbapi.com/?t=" + movie + "&apikey=trilogy")
+
         .then(function (response) {
-            console.log(response.data);
+            let movie = response.data;
+            // console.log(response);
             //line break to make reading results easier
             console.log("\n====================\n");
-            console.log("* Title: " + response.Title + "\r\n");
-            console.log("* Year Released: " + response.data.Year + "\r\n");
-            console.log("* IMDB Rating: " + response.data.imdbRating + "\r\n");
-            console.log("* Rotten Tomatoes Rating: " + response.data.Ratings[1].Value + "\r\n");
-            console.log("* Country Produced: " + response.data.Country + "\r\n");
-            console.log("* Lanuage: " + response.data.Language + "\r\n");
-            console.log("* Plot: " + response.data.Plot + "\r\n");
-            console.log("* Actors: " + response.data.Actors + "\r\n");
+            console.log("* Title: " + movie.Title + "\r\n");
+            console.log("* Year Released: " + movie.Year + "\r\n");
+            console.log("* IMDB Rating: " + movie.imdbRating + "\r\n");
+            console.log("* Rotten Tomatoes Rating: " + movie.Ratings + "\r\n");
+            console.log("* Country Produced: " + movie.Country + "\r\n");
+            console.log("* Lanuage: " + movie.Language + "\r\n");
+            console.log("* Plot: " + movie.Plot + "\r\n");
+            console.log("* Actors: " + movie.Actors + "\r\n");
         })
         .catch(function (error) {
             console.log(error);
         })
         .finally(function () {
 
-        }
-    );
+        });
 };
 
 //Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands
