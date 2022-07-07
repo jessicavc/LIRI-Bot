@@ -22,7 +22,7 @@
     "bandsintown": "^1.0.1",
     "dotenv": "^8.2.0",
     "fs": "0.0.1-security",
-    "moment": "^2.26.0",
+    "moment": "^2.29.4",
     "node-spotify-api": "^1.1.1",
     "omdb": "^0.8.0",
     "omdb-client": "^2.0.0"
